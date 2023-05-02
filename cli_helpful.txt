@@ -1,0 +1,35 @@
+ros2 launch holmes_nav holmes_hall.launch.py # spawn tb3 in hh2
+
+ros2 launch nav2_bringup navigation_launch.py use_sim_time:=True autostart:=False # for nav2 navigation suite
+
+ros2 run turtlebot3_teleop teleop_keyboard # to control turtlebot3 in gazebo simulation
+
+ros2 launch slam_toolbox online_async_launch.py # to launch slam too
+
+ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_view.rviz # to bring up rviz gui
+
+########################
+
+ros2 run nav2_map_server map_saver_cli -f my_map_distort --ros-args -p save_map_timeout:=10000 # to save maps from slam
+
+#########################experimental
+ros2 launch nav2_bringup bringup_launch.py use_sim_time:=True autostart:=False map:=/home/pat/holmes_ws/src/sample_maps/sample_maps/map_test2.yaml
+
+### This works to get an old map on rviz, seems to need .posegraph and .data of map using slam_toolbox conversion
+ros2 run slam_toolbox async_slam_toolbox_node --ros-args -p map_file_name:="$(ros2 pkg prefix sample_maps)/share/sample_maps/sample_maps/map_test" -p map_start_pose:="[0.0, 0.0, 0.0]"
+
+ros2 launch slam_toolbox online_async_launch.py map_file_name:="$(ros2 pkg prefix sample_maps)/share/sample_maps/sample_maps/map_test2" map_start_pose:="[0.0, 0.0, 0.0]"
+
+######################
+
+ros2 launch holmes_nav holmes_hall.launch.py # spawn tb3 in hh2
+
+ros2 launch nav2_bringup navigation_launch.py use_sim_time:=True autostart:=False # for nav2 navigation suite
+
+ros2 launch slam_toolbox online_async_launch.py # to launch slam too
+
+ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_view.rviz # to bring up rviz gui, click startup, give 2D pose estimate
+
+ros2 run turtlebot3_teleop teleop_keyboard # to control turtlebot3 in gazebo simulation
+
+######################

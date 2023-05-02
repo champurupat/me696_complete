@@ -1,0 +1,13 @@
+<launch>
+    <arg name="use_sim_time" default="true" />
+    <include file="$(find-pkg-share holmes_nav)/launch/holmes_hall.launch.py">
+        <arg name="use_sim_time" value="$(var use_sim_time)" />
+    </include>
+    <include file="$(find-pkg-share nav2_bringup)/launch/navigation_launch.py">
+        <arg name="use_sim_time" value="$(var use_sim_time)" />
+    </include>
+    <node pkg="slam_toolbox" exec="async_slam_toolbox_node" name="slam_toolbox">
+        <param name="map_file_name" value="$(find-pkg-share sample_maps)/sample_maps/map_distort"/>
+        <param name="map_start_pose" value="[0.0 0.0 0.0]"/>
+    </node>
+</launch>
