@@ -1,15 +1,10 @@
 . install/setup.bash
 
-ros2 run nav2_map_server map_server -f /home/pat/holmes_ws/src/sample_maps/sample_maps/map_test2.yaml # one new thing
+ros2 run nav2_map_server map_server -f /home/ranlab/holmes_ws/src/sample_maps/sample_maps/map_test2.yaml # absolute path, choose pgm to load to map_server
 
 # path to my src folder
 /home/pat/holmes_ws/src/sample_maps/sample_maps/foobar
 
-##### explore localization launch
-
-ros2 launch holmes_nav holmes_hall.launch.py # spawn tb3 in hh2
-
-ros2 launch nav2_bringup navigation_launch.py use_sim_time:=True autostart:=False # for nav2 navigation suite, no map
 
 ###### Get old map in and SLAM requires serializing
 
@@ -17,8 +12,7 @@ ros2 launch holmes_nav holmes_hall.launch.py # spawn tb3 in hh2
 
 ros2 launch nav2_bringup navigation_launch.py use_sim_time:=True autostart:=False # for nav2 navigation suite, no map
 
-
-ros2 launch slam_toolbox online_async_launch.py params_file:="/home/pat/holmes_ws/src/sample_maps/sample_maps/params_config.yaml" use_sim_time:=True # this works have map_file_name path to name of posegraph data pair
+ros2 launch slam_toolbox online_async_launch.py use_sim_time:=True params_file:="$(ros2 pkg prefix sample_maps)/share/sample_maps/sample_maps/params_config.yaml" # this works have map_file_name path to name of posegraph data pair
 
 ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_view.rviz # to bring up rviz gui
 
@@ -26,7 +20,7 @@ ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/
 
 ros2 launch holmes_nav holmes_hall.launch.py # spawn tb3 in hh2
 
-ros2 launch nav2_bringup bringup_launch.py use_sim_time:=True autostart:=False map:=/home/pat/holmes_ws/map_test2.yaml # launch nav2 with map, yaml has starting pose too
+ros2 launch nav2_bringup bringup_launch.py use_sim_time:=True autostart:=False map:=$(ros2 pkg prefix sample_maps)/share/sample_maps/sample_maps/map_distort.yaml # launch nav2 with map, yaml has starting pose too
 
 ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_view.rviz # to bring up rviz gui
 
