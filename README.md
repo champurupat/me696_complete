@@ -18,7 +18,7 @@ cd me696_hh2_ws
 ros2 launch holmes_nav holmes_hall.launch.py
 ```
 # Wall Following Demo
-to launch wall follower run the following commands in different terminals in this order:
+to launch wall follower run the following commands in different terminals (all sourcing `. install/setup.bash` first) in this order:
 ```
 ros2 launch nav2_bringup navigation_launch.py use_sim_time:=True autostart:=False # for nav2 navigation suite
 
